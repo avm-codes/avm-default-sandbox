@@ -1,6 +1,6 @@
 # AVM Default Sandbox
 
-[![Build and Test](https://github.com/avmcodes/avm-default-sandbox/workflows/Build%20and%20Test/badge.svg)](https://github.com/avmcodes/avm-default-sandbox/actions)
+[![Build and Test](https://github.com/avm-codes/avm-default-sandbox/workflows/Build%20and%20Test/badge.svg)](https://github.com/avmcodes/avm-default-sandbox/actions)
 [![Docker Image](https://img.shields.io/docker/pulls/avmcodes/avm-default-sandbox)](https://hub.docker.com/r/avmcodes/avm-default-sandbox)
 
 The official reference Docker image for the **AVM.codes AI Agents Sandbox Platform**. This multi-language base image provides a secure, pre-configured environment for running AI agents with support for multiple programming languages and popular data science tools.
@@ -46,6 +46,7 @@ docker exec -it avm-sandbox /bin/bash
 ### Python Data Science Stack
 
 Pre-installed packages for data analysis and machine learning:
+
 - numpy, pandas, scipy
 - matplotlib, seaborn, plotly
 - scikit-learn
@@ -146,7 +147,7 @@ This image is designed for the AVM execution environment with the following char
 
 - **Docker Hub**: `avmcodes/avm-default-sandbox`
 - **Platform**: [AVM.codes](https://avm.codes) - AI Agents Sandbox Platform
-- **Source**: [GitHub](https://github.com/avmcodes/avm-default-sandbox)
+- **Source**: [GitHub](https://github.com/avm-codes/avm-default-sandbox)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## License
