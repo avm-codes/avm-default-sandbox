@@ -72,7 +72,7 @@ Pre-installed data analysis and scientific computing packages:
 
 ## Building the Image
 
-Pre-built images are available from GitHub Container Registry (recommended). To build locally:
+Pre-built images are available from Docker Hub (recommended). To build locally:
 
 ```bash
 docker build -t avm-default-sandbox .

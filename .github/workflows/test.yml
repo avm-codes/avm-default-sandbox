@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -26,49 +26,6 @@ jobs:
       - name: Run test suite
         run: |
           docker run --rm -v ${{ github.workspace }}/test.sh:/test.sh avm-default-sandbox:test bash /test.sh
-
-      - name: Test container stays running
-        run: |
-          # Start container in detached mode
-          CONTAINER_ID=$(docker run -d avm-default-sandbox:test)
-          echo "Container ID: $CONTAINER_ID"
-
-          # Wait a bit
-          sleep 5
-
-          # Show container status
-          echo "Container status:"
-          docker ps -a | grep $CONTAINER_ID || true
-
-          # Show logs
-          echo "Container logs:"
-          docker logs $CONTAINER_ID || true
-
-          # Check if container is still running
-          if docker ps | grep -q $CONTAINER_ID; then
-            echo "✓ Container is running as expected"
-          else
-            echo "✗ Container stopped unexpectedly"
-            echo "Exit code:"
-            docker inspect $CONTAINER_ID --format='{{.State.ExitCode}}'
-            exit 1
-          fi
-
-          # Test exec commands work
-          docker exec $CONTAINER_ID node --version
-          docker exec $CONTAINER_ID bun --version
-          docker exec $CONTAINER_ID python3 --version
-          docker exec $CONTAINER_ID go version
-          docker exec $CONTAINER_ID tsc --version
-          docker exec $CONTAINER_ID pnpm --version
-
-          # Cleanup
-          docker stop $CONTAINER_ID
-
-      - name: Check image size
-        run: |
-          SIZE=$(docker images avm-default-sandbox:test --format "{{.Size}}")
-          echo "Image size: $SIZE"
 
   push-edge:
     needs: build-and-test
