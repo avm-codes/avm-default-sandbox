@@ -21,9 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Build Docker image for testing
         run: docker build -t avm-default-sandbox:test .
 
@@ -41,6 +38,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug - Show ref and tags
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "Git tags:"
+          git tag -l
+          echo "Current commit:"
+          git log -1 --oneline
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -63,8 +70,15 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest
             type=sha,prefix=sha-
+
+      - name: Debug - Show generated tags
+        run: |
+          echo "Generated tags:"
+          echo "${{ steps.meta.outputs.tags }}"
+          echo "Generated labels:"
+          echo "${{ steps.meta.outputs.labels }}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -104,5 +118,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Image digest
-        run: echo "Image published with tags ${{ steps.meta.outputs.tags }}"
+      - name: Image published successfully
+        run: |
+          echo "✅ Docker image published successfully!"
+          echo ""
+          echo "Image: ${{ env.IMAGE_NAME }}"
+          echo ""
+          echo "Tags:"
+          echo "${{ steps.meta.outputs.tags }}"
+          echo ""
+          echo "Pull command:"
+          echo "docker pull ${{ env.IMAGE_NAME }}:latest"
