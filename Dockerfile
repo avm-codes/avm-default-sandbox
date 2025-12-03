@@ -69,6 +69,10 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     beautifulsoup4 \
     lxml
 
+# Create a fake sudo script since we're already root
+# This allows commands with "sudo" prefix to work without modification
+RUN printf '#!/bin/sh\nexec "$@"' > /usr/bin/sudo && chmod +x /usr/bin/sudo
+
 # Reset frontend to default
 ENV DEBIAN_FRONTEND=
 
